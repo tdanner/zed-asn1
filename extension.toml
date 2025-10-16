@@ -1,0 +1,12 @@
+id = "asn1"
+name = "ASN.1 Syntax Highlighting"
+version = "0.0.1"
+schema_version = 1
+authors = ["Tim Danner <tim@danners.us>"]
+description = "ASN.1 Syntax Highlighting (SNMP MIB files)"
+repository = "https://github.com/tdanner/zed-asn1"
+
+[grammars.asn1]
+# repository = "file:///Users/tdanner/src/tdanner/tree-sitter-asn1"
+repository = "https://github.com/tdanner/tree-sitter-asn1"
+rev = "main"

@@ -1,0 +1,4 @@
+name = "ASN.1"
+grammar = "asn1"
+path_suffixes = ["mib"]
+line_comments = ["-- "]
