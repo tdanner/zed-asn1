@@ -1,7 +1,10 @@
-use zed_extension_api::{self as zed, Command, EnvVars, LanguageServerId, Result};
+mod language_server;
+
+use language_server::Asn1LanguageServer;
+use zed_extension_api::{self as zed, Command, LanguageServerId, Result};
 
 struct Asn1Extension {
-    // ... state
+    asn1_lsp: Option<Asn1LanguageServer>,
 }
 
 impl zed::Extension for Asn1Extension {
@@ -9,34 +12,22 @@ impl zed::Extension for Asn1Extension {
     where
         Self: Sized,
     {
-        Self {}
+        Self { asn1_lsp: None }
     }
 
     fn language_server_command(
         &mut self,
-        _language_server_id: &LanguageServerId,
-        _worktree: &zed::Worktree,
+        language_server_id: &LanguageServerId,
+        worktree: &zed::Worktree,
     ) -> Result<Command> {
+        let asn1_lsp = self.asn1_lsp.get_or_insert_with(Asn1LanguageServer::new);
+
         Ok(Command {
-            command: get_path_to_language_server_executable()?,
-            args: get_args_for_language_server()?,
-            env: get_env_for_language_server()?,
+            command: asn1_lsp.language_server_binary_path(language_server_id, worktree)?,
+            args: vec![],
+            env: Default::default(),
         })
     }
-}
-
-fn get_env_for_language_server() -> Result<EnvVars> {
-    Ok(Vec::new())
-}
-
-fn get_args_for_language_server() -> Result<Vec<String>> {
-    Ok(Vec::new())
-}
-
-fn get_path_to_language_server_executable() -> Result<String> {
-    Ok(String::from(
-        "/Users/tim/src/asn1-lsp/target/debug/asn1-lsp",
-    ))
 }
 
 zed::register_extension!(Asn1Extension);
