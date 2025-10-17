@@ -9,7 +9,7 @@ impl zed::Extension for Asn1Extension {
     where
         Self: Sized,
     {
-        todo!()
+        Self {}
     }
 
     fn language_server_command(
@@ -34,7 +34,9 @@ fn get_args_for_language_server() -> Result<Vec<String>> {
 }
 
 fn get_path_to_language_server_executable() -> Result<String> {
-    Ok(String::from("path/to/language_server_executable"))
+    Ok(String::from(
+        "/Users/tim/src/asn1-lsp/target/debug/asn1-lsp",
+    ))
 }
 
 zed::register_extension!(Asn1Extension);
